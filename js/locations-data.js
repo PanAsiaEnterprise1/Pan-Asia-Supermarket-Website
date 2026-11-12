@@ -220,7 +220,7 @@ const PAN_ASIA_LOCATIONS = [
     name: "Pan-Asia Supermarket",
     city: "Novi, MI",
     status: "coming-soon",
-    comingLabel: "Opening 2027",
+    comingLabel: "Coming Soon",
     address: null,
     cityStateZip: "Novi, MI",
     lat: 42.48059,
