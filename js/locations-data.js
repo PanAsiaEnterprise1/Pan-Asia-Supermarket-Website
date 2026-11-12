@@ -206,7 +206,7 @@ const PAN_ASIA_LOCATIONS = [
     name: "Pan-Asia Supermarket",
     city: "San Antonio, TX",
     status: "coming-soon",
-    comingLabel: "Opening Early 2027",
+    comingLabel: "Opening Summer of 2027",
     address: "3713 Colony Dr",
     cityStateZip: "San Antonio, TX 78230",
     lat: 29.532327,
