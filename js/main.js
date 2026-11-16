@@ -120,12 +120,21 @@
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
       if (note) { note.style.color = ""; note.textContent = "Sending your message…"; }
 
+      // Give up after 20 seconds so visitors aren't left waiting on a slow FormSubmit.
+      var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timer = controller ? setTimeout(function () { controller.abort(); }, 20000) : null;
+
       fetch("https://formsubmit.co/ajax/" + encodeURIComponent(targetEmail), {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: controller ? controller.signal : undefined
       })
         .then(function (res) { return res.json().catch(function () { return {}; }); })
+        .then(function (data) {
+          // FormSubmit answers {"success":"true"} only when it accepted the message.
+          if (!data || String(data.success) !== "true") { throw new Error("not sent"); }
+        })
         .then(function () {
           if (note) {
             note.textContent = "Thank you for reaching out! We'll be in touch soon. If you need immediate assistance, please call the store directly.";
@@ -140,6 +149,7 @@
           }
         })
         .finally(function () {
+          if (timer) { clearTimeout(timer); }
           if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Send Message"; }
         });
     });
